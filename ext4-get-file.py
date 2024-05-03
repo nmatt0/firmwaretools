@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 from __future__ import absolute_import
-
 import codecs
 import os
 import sys
 import threading
-
 import serial
 from serial.tools.list_ports import comports
 from serial.tools import hexlify_codec
 import time
 import re
-
 
 try:
     raw_input
@@ -20,19 +17,13 @@ except NameError:
     raw_input = input   # in python3 it's "raw"
     unichr = chr
 
-
-
 if len(sys.argv) < 4:
     print(sys.argv[0]+" <mmc_dev:mmc_part> <device_file> <local_file>")
+    sys.exit(1)
 
 mmc_conf = sys.argv[1]
 device_file = sys.argv[2]
 local_file = sys.argv[3]
-
-device = "/dev/ttyUSB0"
-baud = 115200
-
-#s = serial.Serial(port=device,baudrate=baud)
 
 port = "/dev/ttyUSB0"
 baudrate = 115200
@@ -114,8 +105,8 @@ for line in out.decode("utf-8").split("\r\n"):
         pass
 
 # WRITE FILE TO STDOUT
-print()
-print("================ FILE CONTENTS ================")
+#print()
+#print("================ FILE CONTENTS ================")
 #sys.stdout.buffer.write(rawdata)
 
 # WRITE FILE TO LOCAL FILE
