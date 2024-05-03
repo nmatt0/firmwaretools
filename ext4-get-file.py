@@ -59,7 +59,7 @@ s.exclusive = exclusive
 s.open()
 
 # LOAD CMD
-cmd = 'ext4load mmc ' + mmc_conf + ' 0xc2600000 ' + device_file + '\r\n'
+cmd = 'ext4load mmc ' + mmc_conf + ' 0xc2600000 ' + device_file + '\n'
 print("CMD: "+ cmd.strip())
 s.write(cmd.encode('utf-8'))
 s.flush()

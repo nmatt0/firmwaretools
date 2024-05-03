@@ -21,6 +21,7 @@ except NameError:
 
 if len(sys.argv) < 3:
     print(sys.argv[0]+" <mmc_dev:mmc_part> <device_file>")
+    sys.exit(1)
 
 mmc_conf = sys.argv[1]
 device_file = sys.argv[2]
@@ -60,9 +61,9 @@ s.rts = rts
 s.exclusive = exclusive
 s.open()
 
-cmd = b'ext4ls mmc ' + mmc_conf.encode('utf-8') + b' ' + device_file.encode('utf-8') + b'\r\n'
+cmd = b'ext4ls mmc ' + mmc_conf.encode('utf-8') + b' ' + device_file.encode('utf-8') + b'\n'
 s.write(cmd)
-s.flush()
+#s.flush()
 time.sleep(1)
 out = bytes()
 while s.inWaiting() > 0:
