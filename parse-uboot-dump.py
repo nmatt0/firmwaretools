@@ -38,18 +38,24 @@ def main():
     i = open(infile, "r")
     o = open(outfile, "wb")
 
+    data_count = 0
     for line in i.readlines():
         line = line.strip()
-        if re.match(r'^[0-9a-f]{8}:', line) or re.match(r'^0x[0-9a-f]{8}:', line):
+        if re.match(r'^(0x)*[0-9a-f]{8}:', line):
+            #if re.match(r'^[0-9a-f]{8}:', line) or re.match(r'^0x[0-9a-f]{8}:', line):
             line = line.split(":")
             if _verbose:
-                print(line)
+                print('in  : ' + str(line))
             if len(line) == 2:
                 line = line[1]
                 line = line.replace("0x", "")
                 line = line.replace(" ", "")[:32]
                 data = bytes.fromhex(line)
+                if _verbose:
+                    print('out : ' + line)
                 o.write(data)
+                data_count += len(data)
+    print(str(data_count) + ' bytes written to ' + outfile)
 
 
 if __name__ == '__main__':
