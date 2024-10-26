@@ -2,15 +2,17 @@
 #
 # 20241026 original from matt brown, modified by jens heine <binbash@gmx.net>
 #
+import os
 import re
 import sys
 from optparse import OptionParser
+from pathlib import Path
 
 
 def main():
     parser = OptionParser()
     parser.add_option("-i", "--infile", dest="infile",
-                      help="read data from FILE", metavar="FILE")
+                      help="read data from FILE (required)", metavar="FILE")
     parser.add_option("-o", "--outfile", dest="outfile",
                       help="write binary data to FILE", metavar="FILE")
     parser.add_option("-v", "--verbose",
@@ -23,17 +25,25 @@ def main():
     if options.infile:
         infile = options.infile
 
-    outfile = None
+    outfile = "firmware.bin"
     if options.outfile:
         outfile = options.outfile
 
-    if infile is None or outfile is None:
+    if infile is None:
         print("Error: Missing argument, try -h for help")
         sys.exit(1)
 
     _verbose = False
     if options.verbose:
         _verbose = options.verbose
+
+    if Path(outfile).is_file():
+        print("Error: outfile already exists.")
+        answer = input("Overwrite (y/n)? : ")
+        if answer != 'y':
+            sys.exit(0)
+        else:
+            os.remove(outfile)
 
     i = open(infile, "r")
     o = open(outfile, "wb")
