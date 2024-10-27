@@ -40,6 +40,7 @@ def main():
     if Path(outfile).is_file():
         print("Error: outfile already exists.")
         answer = input("Overwrite (y/n)? : ")
+        print()
         if answer != 'y':
             sys.exit(0)
         else:
@@ -51,19 +52,21 @@ def main():
     data_count = 0
     for line in i.readlines():
         line = line.strip()
-        if re.match(r'^(0x)*[0-9a-f]{8}:', line):
+        if re.match(r'^(0x)*[0-9A-Fa-f]{8}:', line):
             line = line.split(":")
-            if _verbose:
-                print('in  : ' + str(line))
+            #if _verbose:
+            #    print('in  : ' + str(line))
             if len(line) == 2:
                 line = line[1]
                 line = line.replace("0x", "")
                 line = line.replace(" ", "")[:32]
                 data = bytes.fromhex(line)
                 if _verbose:
-                    print('out : ' + line)
+                    #print('out : ' + line)
+                    print(str(line))
                 o.write(data)
                 data_count += len(data)
+    print()
     print(str(data_count) + ' bytes written to ' + outfile)
 
 
