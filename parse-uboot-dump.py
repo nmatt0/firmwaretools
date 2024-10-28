@@ -38,7 +38,7 @@ def main():
         _verbose = options.verbose
 
     if Path(outfile).is_file():
-        print("Error: outfile already exists.")
+        print("Error: outfile '" + str(outfile) + "' already exists.")
         answer = input("Overwrite (y/n)? : ")
         print()
         if answer != 'y':
