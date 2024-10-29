@@ -9,13 +9,6 @@ from optparse import OptionParser
 from pathlib import Path
 
 
-# def decode_2_ascii(b: bytes) -> str:
-#     result_str = ""
-#     for _b in list(b):
-#         if int.from_bytes(_b, "little") >= 32 and int.from_bytes(_b) <= 126:
-#             result_str = result_str + chr(int.from_bytes(_b))
-
-
 def main():
     parser = OptionParser()
     parser.add_option("-i", "--infile", dest="infile",
@@ -83,22 +76,20 @@ def main():
                     if _verbose:
                         try:
                             decoded = bytes.fromhex(memory_address_content).decode(encoding="ascii")
-                        except:
+                        except Exception as e:
                             decoded = '..'
-                        print('Offset in  : ' + str(data_count).rjust(8) + ' ' + str(memory_address_content)
+                        print('Offset ' + str(data_count).rjust(8) + ' in  : ' + str(memory_address_content)
                               + ' : ' + decoded)
                     if _little_endian:
-                        memory_address_content = (memory_address_content[2:4] + memory_address_content[0:2]
-                                                  + memory_address_content[6:8] + memory_address_content[4:6])
+                        memory_address_content = (memory_address_content[6:8] + memory_address_content[4:6]
+                                                  + memory_address_content[2:4] + memory_address_content[0:2])
                     data = bytes.fromhex(memory_address_content)
-                    # if len(data) == 0:
-                    #     continue
                     if _verbose:
                         try:
                             decoded = bytes.fromhex(memory_address_content).decode(encoding="ascii")
                         except:
                             decoded = '..'
-                        print('Offset out : ' + str(data_count).rjust(8) + ' ' + str(memory_address_content)
+                        print('Offset ' + str(data_count).rjust(8) + ' out : ' + str(memory_address_content)
                               + ' : ' + decoded)
                     o.write(data)
                     data_count += len(data)
